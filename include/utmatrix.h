@@ -62,41 +62,83 @@ public:
 template <class ValType>
 TVector<ValType>::TVector(int s, int si)
 {
+	Size = s;
+	StartIndex = si;
+	if (s < 0 || si < 0)
+		throw ("Error");
+	if (s> MAX_VECTOR_SIZE()
+		throw ("Error");
+	pVector = new ValType[Size];
+	for (int i = 0; i < Size; i++)
+		pVector[i] = 0;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> //конструктор копирования
 TVector<ValType>::TVector(const TVector<ValType> &v)
 {
+	Size = v.Size;
+	StartIndex = v.StartIndex;
+	for (int i = StartIndex; i < Size; i++)
+		pVector[i] = v.pVector[i];
+	pVector = new ValType[Size];
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType>
 TVector<ValType>::~TVector()
 {
+	delete[] pVector;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // доступ
 ValType& TVector<ValType>::operator[](int pos)
 {
+	if (pos < 0 || pos>Size)
+		throw("Error");
+	return pVector[pos];
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сравнение
 bool TVector<ValType>::operator==(const TVector &v) const
 {
+	if (Size != v.Size)
+		return false;
+
+	for (int i = 0; i < Size; i++)
+		if (pVector[i] != v.pVector[i])
+			return false;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сравнение
 bool TVector<ValType>::operator!=(const TVector &v) const
 {
+	return !(*this == v);
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // присваивание
 TVector<ValType>& TVector<ValType>::operator=(const TVector &v)
 {
+	if (v.Size != Size)
+	{
+		delete[] pVector;
+		Size = v.Size;
+		pVector = new ValType[Size];
+	}
+	StartIndex = v.StartIndex;
+
+	for (int i = 0; i < Size; i++)
+	{
+		pVector[i] = v.pVector;
+	}
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // прибавить скаляр
 TVector<ValType> TVector<ValType>::operator+(const ValType &val)
 {
+	TVector<ValType> res(*this);
+
+	for (int i = 0; i < Size, i++)
+		res[i] += val;
+	return res;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // вычесть скаляр
@@ -157,6 +199,13 @@ public:
 template <class ValType>
 TMatrix<ValType>::TMatrix(int s): TVector<TVector<ValType> >(s)
 {
+	if (s > MAX_MATRIX_SIZE)
+		throw "Wrong size";
+	for (int i = 0; i < Size; i++)
+	{
+		TVector<ValType> tmp(Size - i, i);
+		pVector[i] = tmp;
+	}
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // конструктор копирования
@@ -170,21 +219,42 @@ TMatrix<ValType>::TMatrix(const TVector<TVector<ValType> > &mt):
 template <class ValType> // сравнение
 bool TMatrix<ValType>::operator==(const TMatrix<ValType> &mt) const
 {
+	if (Size != mt.Size)
+		return false;
+
+	for (int i = 0; i < Size; i++)
+		if (pVector[i] != mt.pVector[i])
+			return false;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сравнение
 bool TMatrix<ValType>::operator!=(const TMatrix<ValType> &mt) const
 {
+	return !(*this == mt);
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // присваивание
 TMatrix<ValType>& TMatrix<ValType>::operator=(const TMatrix<ValType> &mt)
 {
+	if (Size != mt.Size)
+	{
+		Size = mt.Size;
+		delete[] pVector;
+		pVector = new TVector<ValType>(Size);
+	}
+
+	for (int i = 0; i < Size; i++)
+		pVector[i] = mt.pVector[i];
+
+	return *this;
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сложение
 TMatrix<ValType> TMatrix<ValType>::operator+(const TMatrix<ValType> &mt)
 {
+	TMatrix<ValType> res(*this)
+
+	for(int i=0;i<Size && i<MaxSize)
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // вычитание
