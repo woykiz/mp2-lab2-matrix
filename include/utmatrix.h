@@ -78,7 +78,7 @@ TVector<ValType>::TVector(const TVector<ValType> &v)
 {
 	Size = v.Size;
 	StartIndex = v.StartIndex;
-	for (int i = StartIndex; i < Size; i++)
+	for (int i = 0; i < Size; i++)
 		pVector[i] = v.pVector[i];
 	pVector = new ValType[Size];
 } /*-------------------------------------------------------------------------*/
