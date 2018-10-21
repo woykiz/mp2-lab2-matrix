@@ -96,6 +96,7 @@ ValType& TVector<ValType>::operator[](int pos)
 	if (pos < StartIndex || pos>Size + StartIndex)
 		throw("Error");
 	return pVector[pos-StartIndex];
+
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сравнение
@@ -133,10 +134,9 @@ TVector<ValType>& TVector<ValType>::operator=(const TVector &v)
 
 	for (int i = 0; i < Size; i++)
 	{
+
 		pVector[i] = v.pVector[i];
 	}
-
-
 	return *this;
 } /*-------------------------------------------------------------------------*/
 
@@ -144,6 +144,7 @@ template <class ValType> // прибавить скаляр
 TVector<ValType> TVector<ValType>::operator+(const ValType &val)
 {
 	TVector<ValType> res(*this);
+
 
 	for (int i = 0; i < Size; i++)
 		res[i] += val;
@@ -154,7 +155,6 @@ TVector<ValType> TVector<ValType>::operator+(const ValType &val)
 template <class ValType> // вычесть скаляр
 TVector<ValType> TVector<ValType>::operator-(const ValType &val)
 {
-
 	TVector<ValType> res(*this);
 
 	for (int i = 0; i < Size; i++)
@@ -252,6 +252,7 @@ TMatrix<ValType>::TMatrix(int s): TVector<TVector<ValType> >(s)
 	if (s > MAX_MATRIX_SIZE)
 		throw "Wrong matrix size";
 
+
 	for (int i = 0; i < Size; i++)
 	{
 		TVector<ValType> tmp(Size - i, i);
@@ -278,6 +279,7 @@ bool TMatrix<ValType>::operator==(const TMatrix<ValType> &mt) const
 			return false;
 
 	return true;
+
 } /*-------------------------------------------------------------------------*/
 
 template <class ValType> // сравнение
