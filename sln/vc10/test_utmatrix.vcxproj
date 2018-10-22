@@ -109,9 +109,6 @@
     <ClCompile Include="..\..\test\test_tmatrix.cpp" />
     <ClCompile Include="..\..\test\test_tvector.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\include\utmatrix.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
